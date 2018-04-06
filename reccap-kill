@@ -1,0 +1,2 @@
+#!/bin/sh
+fuser --silent --kill "$1"

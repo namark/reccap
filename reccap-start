@@ -1,0 +1,40 @@
+#!/bin/sh
+capper=""
+ffmpeg="ffmpeg"
+avconv="avconv"
+local_ffmpeg="./$ffmpeg"
+local_avconv="./$avconv"
+if [ -e "$local_ffmpeg" ]
+then
+	capper=$local_ffmpeg
+elif [ ! -z "$(which $ffmpeg)" ]
+then
+	capper=$ffmpeg
+elif [ -e "$local_avconv" ]
+then
+	capper=$local_avconv
+elif [ ! -z "which $avconv" ]
+then
+	capper="$avconv"
+fi
+
+framerate="$2"
+if [ -z "$framerate" ]
+then
+	framerate="24"
+fi
+
+get_position()
+{
+	echo "$3,$4"
+}
+
+get_size()
+{
+	echo "$1x$2"
+}
+
+geometry=$(./xrectsel | sed "s/[^0-9]/ /g")
+position=$(get_position $geometry)
+size=$(get_size $geometry)
+yes | $capper -video_size "$size" -framerate "$framerate" -f x11grab -i :0.0+"$position" -pix_fmt rgb24 "$1" 2> /dev/null > /dev/null &
