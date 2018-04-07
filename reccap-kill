@@ -1,2 +1,2 @@
 #!/bin/sh
-fuser --silent --kill "$1"
+fuser --silent --writeonly --kill -INT "$1"
