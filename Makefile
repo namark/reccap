@@ -4,7 +4,7 @@ BIN		:= $(PREFIX)/bin
 SCRIPTS	:= ./reccap-start ./reccap-kill
 
 default:
-	echo "Use install/uninstall, there is nithing to build"
+	@echo "Use install/uninstall, there is nithing to build"
 
 install:
 	install -D ./reccap-start $(BIN)/reccap-start
