@@ -1,5 +1,5 @@
 # reccap
-A couple of simple scripts for desktop region recording using ffmpeg/avconv and [slop]().
+A couple of simple scripts for desktop region recording using ffmpeg/avconv and [slop](https://github.com/naelstrof/slop).
 
 # Usage
 Start recording:<br />
