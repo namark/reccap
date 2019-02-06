@@ -27,7 +27,7 @@ then
 fi
 
 slop="slop"
-if [ -z "which $slop" ]
+if [ -z "$(which $slop)" ]
 then
 	echo Install slop!
 	exit 1
