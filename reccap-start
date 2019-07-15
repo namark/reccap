@@ -27,6 +27,10 @@ then
 		echo Install ffmpeg or avconv!
 		exit 1
 	fi
+elif [ -z $(which "$capper") ]
+then
+	echo "$capper" does not seem to be a valid command
+	exit 1
 fi
 
 slop="slop"
