@@ -9,21 +9,24 @@ then
 	reccap-kill "$1"
 fi
 
-capper=""
-ffmpeg="ffmpeg"
-avconv="avconv"
-if [ ! -z "$(which $ffmpeg)" ]
+capper="$3"
+if [ -z "$capper" ]
 then
-	capper=$ffmpeg
-elif [ ! -z "$(which $avconv)" ]
-then
-	capper="$avconv"
-fi
+	ffmpeg="ffmpeg"
+	avconv="avconv"
+	if [ ! -z "$(which $ffmpeg)" ]
+	then
+		capper=$ffmpeg
+	elif [ ! -z "$(which $avconv)" ]
+	then
+		capper="$avconv"
+	fi
 
-if [ -e "$capper" ]
-then
-	echo Install ffmpeg or avconv!
-	exit 1
+	if [ -z "$capper" ]
+	then
+		echo Install ffmpeg or avconv!
+		exit 1
+	fi
 fi
 
 slop="slop"
@@ -39,6 +42,12 @@ then
 	framerate="24"
 fi
 
+audio_params=""
+if [ ! -z "$4" ]
+then
+	audio_params="-f pulse -i default"
+fi
+
 get_position()
 {
 	echo "$3,$4"
@@ -52,4 +61,4 @@ get_size()
 geometry=$("$slop" -b 1 -f %g 2> /dev/null | sed "s/[^0-9]/ /g")
 position=$(get_position $geometry)
 size=$(get_size $geometry)
-yes | $capper -video_size "$size" -framerate "$framerate" -f x11grab -i :0.0+"$position" -pix_fmt rgb24 "$1" 2> /dev/null > /dev/null &
+yes | $capper -video_size "$size" -framerate "$framerate" -f x11grab -i :0.0+"$position" $audio_params "$1" 2> /dev/null > /dev/null &
