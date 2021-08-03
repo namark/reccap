@@ -2,7 +2,7 @@
 
 if [ -z "$1" ]
 then
-	echo "Specify output filename!"
+	echo "Usage: reccap-start FILENAME [fps=24] [ffmpeg/acvonv] [pusle/alsa] [X,Y] [WIDTHxHEIGHT]"
 	exit 1
 elif [ -e "$1" ]
 then
@@ -49,7 +49,7 @@ fi
 audio_params=""
 if [ ! -z "$4" ]
 then
-	audio_params="-f pulse -i default"
+	audio_params="-f $4 -i default"
 fi
 
 get_position()
@@ -62,7 +62,21 @@ get_size()
 	echo "$1x$2"
 }
 
-geometry=$("$slop" -b 1 -f %g 2> /dev/null | sed "s/[^0-9]/ /g")
-position=$(get_position $geometry)
-size=$(get_size $geometry)
+if [ -z "$5" ] || [ -z "$6" ]
+then
+	geometry=$("$slop" -b 1 -f %g 2> /dev/null | sed "s/[^0-9]/ /g")
+	position=$(get_position $geometry)
+	size=$(get_size $geometry)
+fi
+
+if [ ! -z "$5" ]
+then
+	position="$5"
+fi
+
+if [ ! -z "$6" ]
+then
+	size="$6"
+fi
+
 yes | $capper -video_size "$size" -framerate "$framerate" -f x11grab -i :0.0+"$position" $audio_params -crf 0 -preset ultrafast "$1" 2> /dev/null > /dev/null &

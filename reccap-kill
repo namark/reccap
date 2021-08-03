@@ -1,2 +1,9 @@
 #!/bin/sh
+
+if [ -z "$1" ]
+then
+	echo "Usage: reccap-kill FILENAME"
+	exit 1
+fi
+
 fuser --silent --writeonly --kill -INT "$1"
