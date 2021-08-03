@@ -3,8 +3,10 @@ A couple of simple scripts for desktop region recording using ffmpeg/avconv and 
 
 # Usage
 Start recording:<br />
-`reccap-start [output-filename] [framerate=24]`<br />
-Stop recording:<br />
-`reccap-stop [output-filename]`
+`reccap-start FILENAME [fps=24] [ffmpeg/acvonv] [pusle/alsa] [X,Y] [WIDTHxHEIGHT]`<br />
+ffmpeg is preffered, audio not enabled unless specified, specifying both width and height bypasses slop
 
-[Demo gif, recorded whith reccap of course.](https://goblinrefuge.com/mediagoblin/u/namark/m/reccap-demo/)
+
+Stop recording:<br />
+`reccap-kill FILENAME`
+
